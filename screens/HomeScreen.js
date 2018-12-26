@@ -9,15 +9,33 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
+import { connect } from 'react-redux'
 
 import { MonoText } from '../components/StyledText';
 
-export default class HomeScreen extends React.Component {
+
+
+class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props)
+    this._films = []
+  }
+
   static navigationOptions = {
     header: null,
   };
 
+
+  _toggleFavorite() {
+    console.log("ADD **********")
+    const action = { type: "TOGGLE_FAVORITE", value: "test" }
+    this.props.dispatch(action)
+}
+  
   render() {
+
+    console.log("props" + this.props)
+
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -49,6 +67,10 @@ export default class HomeScreen extends React.Component {
           <View style={styles.helpContainer}>
             <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
               <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={this._toggleFavorite} >
+              <Text>Ajouter un film</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -186,3 +208,12 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
 });
+
+
+const mapStateToProps = (state) => {
+  return {
+    favoritesFilm: state.favoritesFilm
+  }
+}
+
+export default connect(mapStateToProps)(HomeScreen)

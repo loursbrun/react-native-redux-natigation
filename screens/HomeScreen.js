@@ -18,7 +18,10 @@ import { MonoText } from '../components/StyledText';
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props)
-    this._films = []
+    state = {
+      places: [],
+      selectedPlace: null,
+    }
   }
 
   static navigationOptions = {
@@ -30,6 +33,7 @@ class HomeScreen extends React.Component {
     console.log("ADD **********")
     const action = { type: "TOGGLE_FAVORITE", value: "test" }
     this.props.dispatch(action)
+    //this.props.clearState()
 }
   
   render() {
@@ -210,8 +214,9 @@ const styles = StyleSheet.create({
 });
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
+    places: state.places,
     favoritesFilm: state.favoritesFilm
   }
 }
